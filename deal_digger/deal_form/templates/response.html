@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <ul>
+    {% for question, answer in questions.items %}
+        <li>Вопрос: {{ question }}</li>
+        <li>Ответ: {{ answer }}</li>
+    {% endfor %}
+    </ul>
+
+    <p>{{ deal }}</p>
+{% endblock %}
