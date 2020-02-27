@@ -14,7 +14,6 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from django.contrib import admin
 
 
 from deal_form import views as form_views
@@ -24,6 +23,4 @@ from deal_api import views as api_views
 urlpatterns = [
     path('', form_views.get_deal_form),
     path('api/extract', api_views.ExtractEntitiesApi.as_view()),
-
-    path('admin', admin.site.urls),
 ]
