@@ -6,8 +6,7 @@ from django import forms
 import warnings
 warnings.simplefilter('ignore')
 
-from deal_api.dl_model import AnswerModel
-model = AnswerModel()
+from deal_api.dl_model import model
 
 
 class DealForm(forms.Form):

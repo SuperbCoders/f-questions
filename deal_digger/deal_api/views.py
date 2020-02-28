@@ -1,8 +1,7 @@
 from rest_framework import views
 from rest_framework.response import Response
 
-from deal_api.dl_model import AnswerModel
-model = AnswerModel()
+from deal_api.dl_model import model
 
 
 class ExtractEntitiesApi(views.APIView):

@@ -55,3 +55,5 @@ class AnswerModel:
             if 4 < len(ans) < 25:
                 return ans.lower()
         return None
+
+model = AnswerModel()
