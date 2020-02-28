@@ -53,7 +53,9 @@ class AnswerModel:
         for q in ['избирается сроком на', 'какой срок полномочий генерального директора']:
             ans = self.answer(text, q)
             if 4 < len(ans) < 25:
-                return ans.lower()
+                if any([t in ans for t in ['год', 'лет', 'срок']]):
+                    return ans.lower()
         return None
+
 
 model = AnswerModel()
