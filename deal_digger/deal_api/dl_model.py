@@ -51,10 +51,10 @@ class AnswerModel:
 
     def predict_executor_period(self, text):
         for q in ['избирается сроком на', 'какой срок полномочий генерального директора']:
-            ans = self.answer(text, q)
-            if 4 < len(ans) < 25:
+            ans = self.answer(text, q).lower()
+            if ans and (4 < len(ans) < 25):
                 if any([t in ans for t in ['год', 'лет', 'срок']]):
-                    return ans.lower()
+                    return ans
         return None
 
 
