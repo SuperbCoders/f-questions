@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:11
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  redis:
+    image: "redis:alpine"
+
+  ocr:
+    build: ../F-OCR-pdf-to-json/
+    ports:
+      - "8001:8001"
+
+  web:
+    build: .
+    volumes:
+      - ./deal_digger/:/app/
+      - pdf_data:/media/
+    ports:
+      - "8000:8000"
+    depends_on:
+      - ocr
+      - postgres
+      - redis
+
+  celery:
+    build: .
+    command: celery -A deal_digger worker -l info
+    volumes:
+      - ./deal_digger/:/app/
+      - pdf_data:/media/
+    depends_on:
+      - postgres
+      - redis
+
+volumes:
+    postgres_data:
+    pdf_data:

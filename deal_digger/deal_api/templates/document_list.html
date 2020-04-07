@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Документы <a href="/form/"><button class="btn btn-primary pull-left">Загрузить</button></a></h1>
+<table class="table table-bordered">
+<thead>
+<tr>
+  <th>Название документа</th>
+  <th>Статус извлечения текста</th>
+  <th>Количество ответов</th>
+</tr>
+</thead>
+<tbody>
+  {% for doc in object_list %}
+      <tr>
+        <td><a href="/document/{{ doc.id }}/"> {{ doc.pdf_file.name }}</a></td>
+        <td>{{ doc.get_status_display }}</td>
+        <td>{{ doc.num_answers }}</td>
+      </tr>
+  {% empty %}
+      <tr>
+         <td colspan="3">Ничего нет.</td>
+      </tr>
+  {% endfor %}
+</tbody>
+
+</table>
+{% endblock %}

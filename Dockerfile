@@ -26,5 +26,6 @@ RUN python -m nltk.downloader perluniprops
 RUN python -m nltk.downloader nonbreaking_prefixes
 
 COPY ./deal_digger ./
+RUN python -c "import deal_api.dl_model"
 
 CMD python manage.py runserver 0.0.0.0:$PORT --noreload

@@ -14,13 +14,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-
-
-from deal_form import views as form_views
-from deal_api import views as api_views
+from django.conf import settings
+from django.conf.urls.static import static
+from deal_api import api_views as api_views
+from deal_api import views
 
 
 urlpatterns = [
-    path('', form_views.get_deal_form),
+    path('', views.DocumentListView.as_view(), name='document-list'),
+    path('document/<int:pk>/', views.DocumentDetailView.as_view(), name='document-detail'),
+    path('document/<int:pk>/ask/', views.ask_model, name='document-ask'),
+    path('document/<int:pk>/extract-text/', views.ask_ocr, name='document-ocr'),
+    path('form/', views.get_deal_form),
     path('api/extract', api_views.ExtractEntitiesApi.as_view()),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

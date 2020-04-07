@@ -17,7 +17,7 @@ class AnswerModel:
         print('Loading model')
         self._model = build_model(configs.squad.squad_ru_rubert_infer)
         print('Model loaded')
-        models_dir = os.path.join(os.path.dirname(__file__), 'models')
+        models_dir = os.path.join(os.path.dirname(__file__), 'classic_models')
 
         with open(os.path.join(models_dir, 'trigram_encoder.pkl'), 'rb') as f:
             self.trigram_encoder = pickle.load(f)
@@ -46,8 +46,8 @@ class AnswerModel:
         enc_answers = self.trigram_encoder.transform(answers).toarray()
         predicts = self.regressor.predict(enc_answers)
         if any(predicts):
-            return 'генеральный директор'
-        return None
+            return 'генеральный директор', answers
+        return None, answers
 
     def predict_executor_period(self, text):
         for q in ['избирается сроком на', 'какой срок полномочий генерального директора']:

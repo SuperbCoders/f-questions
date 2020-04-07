@@ -3,3 +3,7 @@ djangorestframework
 django-crispy-forms==1.8.1
 deeppavlov==0.8.0
 scikit-learn==0.21.2
+celery[redis]
+psycopg2-binary
+django-celery-results
+django-celery-beat
