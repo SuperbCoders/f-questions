@@ -3,8 +3,9 @@
 {% block content %}
 <h2>{{ object.pdf_file.name }} - {{ object.get_status_display }}</h2>
   <h3>
-    <a href="/document/{{ object.id }}/extract-text/"><button class="btn btn-primary">Извлечь текст</button></a>
-    <a href="/document/{{ object.id }}/ask/"><button class="btn btn-primary">Спросить модель</button></a>
+    <a class="btn btn-primary {% ifequal object.status 1 %}disabled{% endifequal %}" href="/document/{{ object.id }}/extract-text/">Извлечь текст</a>
+    <a href="/document/{{ object.id }}/ask/" class="btn btn-primary {% ifequal object.status 1 %}disabled{% endifequal %}">Спросить модель</a>
+    <a href="/document/{{ object.id }}/delete/" class="btn btn-danger {% ifequal object.status 1 %}disabled{% endifequal %}">Удалить</a>
   </h3>
   <h4>Ответы:</h4>
   <ul class="list-group">

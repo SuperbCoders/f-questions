@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('pdf_file', models.FileField(upload_to='pdf')),
-                ('status', models.IntegerField(choices=[(0, 'Not Processed'), (1, 'Processing'), (2, 'Processed')], default=0)),
+                ('status', models.IntegerField(choices=[(0, 'Not Processed'), (1, 'Processing'), (2, 'Processed'), (3, 'Ocr Error')], default=0)),
                 ('name', models.CharField(max_length=255)),
                 ('text', models.TextField(null=True)),
             ],

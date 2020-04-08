@@ -55,3 +55,8 @@ def ask_model(request, pk):
 def ask_ocr(request, pk):
     extract_text.delay(pk)
     return render(request, 'doc_submitted.html')
+
+
+def delete_document(request, pk):
+    Document.objects.filter(id=pk).delete()
+    return redirect('/')

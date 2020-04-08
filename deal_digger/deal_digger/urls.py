@@ -25,6 +25,7 @@ urlpatterns = [
     path('document/<int:pk>/', views.DocumentDetailView.as_view(), name='document-detail'),
     path('document/<int:pk>/ask/', views.ask_model, name='document-ask'),
     path('document/<int:pk>/extract-text/', views.ask_ocr, name='document-ocr'),
+    path('document/<int:pk>/delete/', views.delete_document, name='document-delete'),
     path('form/', views.get_deal_form),
     path('api/extract', api_views.ExtractEntitiesApi.as_view()),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

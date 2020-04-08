@@ -1,11 +1,13 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+
 class Document(models.Model):
     class States(models.IntegerChoices):
         NOT_PROCESSED = 0
         PROCESSING = 1
         PROCESSED = 2
+        OCR_ERROR = 3
 
     pdf_file = models.FileField(upload_to='pdf')
     status = models.IntegerField(choices=States.choices, default=States.NOT_PROCESSED)

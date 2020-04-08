@@ -8,7 +8,7 @@ from celery.utils.log import get_task_logger
 logger = get_task_logger(__name__)
 
 
-@app.task(name="extract_text", autoretry_for=(Exception,), max_retries=3)
+@app.task(name="extract_text", time_limit=20 * 60)
 def extract_text(doc_id):
     logger.info(f'Starting {doc_id}')
     doc = Document.objects.get(id=doc_id)
@@ -23,7 +23,6 @@ def extract_text(doc_id):
         "Accept": "application/json",
     }
     params = {
-        "crop": "true",
         "start": 1,
         "quality": "true"
     }
@@ -31,19 +30,20 @@ def extract_text(doc_id):
 
     logger.info(f'Received request {doc_id}')
 
-    response.raise_for_status()
-    whole_text = ' '.join(
-        ' '.join(i['body'] for i in part['text'])
-        for part in response.json()['content']
-    )
+    data = response.json()
+    if data == 500:
+        doc.status = Document.States.PROCESSED
+    else:
+        whole_text = ' '.join(
+            ' '.join(i['body'] for i in part['text'])
+            for part in response.json()['content']
+        )
 
-    doc.text = whole_text
-    doc.status = Document.States.PROCESSED
+        doc.text = whole_text
+        doc.status = Document.States.PROCESSED
+
     doc.save()
-
     logger.info(f'Saved text {doc_id}')
-
-    ask_questions.delay(doc_id)
 
 
 @app.task(name="ask_questions", autoretry_for=(Exception,), max_retries=1)
