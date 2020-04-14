@@ -39,7 +39,7 @@ class DocumentListView(ListView):
 
     def get_queryset(self):
         q = super(DocumentListView, self).get_queryset()
-        return q.annotate(num_answers=Count('documentanswer'))
+        return q.annotate(num_answers=Count('documentanswer')).order_by('pk')
 
 
 class DocumentDetailView(DetailView):
