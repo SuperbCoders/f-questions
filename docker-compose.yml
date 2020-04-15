@@ -18,8 +18,9 @@ services:
 
   web:
     build: .
+    command: python manage.py runserver 0.0.0.0:8000 --noreload
     volumes:
-      - ./deal_digger/:/app/
+#      - ./deal_digger/:/app/
       - pdf_data:/media/
     ports:
       - "8000:8000"
@@ -33,7 +34,7 @@ services:
     build: .
     command: celery -A deal_digger worker -l info
     volumes:
-      - ./deal_digger/:/app/
+#      - ./deal_digger/:/app/
       - pdf_data:/media/
     depends_on:
       - postgres
