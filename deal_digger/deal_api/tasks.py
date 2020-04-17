@@ -8,7 +8,7 @@ from celery.utils.log import get_task_logger
 logger = get_task_logger(__name__)
 
 
-@app.task(name="extract_text", time_limit=20 * 60)
+@app.task(name="extract_text", time_limit=40 * 60)
 def extract_text(doc_id):
     logger.info(f'Starting {doc_id}')
     doc = Document.objects.get(id=doc_id)
@@ -29,10 +29,11 @@ def extract_text(doc_id):
     response = requests.post(url=url, params=params, headers=headers, files=files, timeout=None)
 
     logger.info(f'Received request {doc_id}')
+    logger.info(f'Raw response body: \n{response.text[:100]}')
 
     data = response.json()
-    if data == 500:
-        doc.status = Document.States.PROCESSED
+    if data == '500':
+        doc.status = Document.States.OCR_ERROR
     else:
         whole_text = ' '.join(
             ' '.join(i['body'] for i in part['text'])
